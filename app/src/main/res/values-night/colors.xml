@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors -->
+    <color name="color_primary">#CAD3D8</color>
+
+    <!-- Secondary Colors -->
+    <color name="color_secondary_variant">#41484B</color>
+    <color name="color_secondary">#171C1F</color>
+
+    <!-- Background Colors -->
+    <color name="color_background">#171C1F</color>
+
+
+
+</resources>

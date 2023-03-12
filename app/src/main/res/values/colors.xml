@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors -->
+    <color name="color_primary">#606060</color>
+
+    <!-- Secondary Colors -->
+    <color name="color_secondary">#FAFAFA</color>
+    <color name="color_secondary_variant">#DADADA</color>
+
+    <!-- Background Colors -->
+    <color name="color_background">#FAFAFA</color>
+
+
+        <!-- Light gray color palette -->
+        <color name="color_light_gray">#F5F5F5</color>
+        <color name="color_dark_gray">#D8D8D8</color>
+        <color name="color_darker_gray">#E6E6E6</color>
+        <color name="color_lighter_gray">#F9F9F9</color>
+        <color name="color_white">#FFFFFF</color>
+
+</resources>

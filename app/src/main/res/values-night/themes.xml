@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.BaseConverter" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:forceDarkAllowed" tools:targetApi="q">true</item>
+
+        <item name="colorPrimary">@color/color_primary</item>
+
+        <item name="colorSecondary">@color/color_secondary</item>
+        <item name="colorSecondaryVariant">@color/color_secondary_variant</item>
+
+        <item name="android:windowBackground">@color/color_background</item>
+        <item name="background">@color/color_background</item>
+
+
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/color_secondary_variant</item>
+    </style>
+
+
+</resources>
