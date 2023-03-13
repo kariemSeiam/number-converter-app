@@ -1,77 +1,93 @@
 package com.pigo.baseconverter
 
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
+import android.widget.Button
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.databinding.DataBindingUtil
-import com.pigo.baseconverter.databinding.ActivityMainBinding
+import com.google.android.material.textfield.TextInputEditText
+
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var inputNumberTextInput: TextInputEditText
+    private lateinit var resultTextView: TextView
+    private lateinit var convertFromTextView: TextView
+    private lateinit var convertToTextView: TextView
+    private lateinit var deleteButton: Button
+    private lateinit var convertButton: Button
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        setupStatusBar()
-        setupThemeButtonsClickListener()
-        setupNumberButtonsClickListener()
-        setupDeleteButtonClickListener()
-        setupConversionViewsClickListener()
+        setContentView(R.layout.activity_main)
+        setUpViews()
+        setUpClickListeners()
+
     }
 
-    private fun setupStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
+    private fun setUpViews() {
+        inputNumberTextInput = findViewById(R.id.editTextInputNumber)
+        resultTextView = findViewById(R.id.textViewResult)
+        convertFromTextView = findViewById(R.id.textViewPopupMenuConvertFrom)
+        convertToTextView = findViewById(R.id.textViewPopupMenuConvertTo)
+        deleteButton = findViewById(R.id.button_delete)
+        convertButton = findViewById(R.id.button_convert)
     }
 
-    private fun setupThemeButtonsClickListener() {
-        binding.imgLightMode.setOnClickListener {
+    private fun setUpClickListeners() {
+        setupThemes()
+        setupGridLayoutNumbers()
+        setupDeleteButtons()
+        setupConversionStates()
+    }
+
+
+    private fun setupThemes() {
+        findViewById<View>(R.id.img_light_mode).setOnClickListener {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             recreate()
         }
-        binding.imgDarkMode.setOnClickListener {
+        findViewById<View>(R.id.img_dark_mode).setOnClickListener {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             recreate()
         }
     }
 
-    private fun setupNumberButtonsClickListener() {
+    private fun setupGridLayoutNumbers() {
         val numberButtons = listOf(
-            binding.button0,
-            binding.button1,
-            binding.button2,
-            binding.button3,
-            binding.button4,
-            binding.button5,
-            binding.button6,
-            binding.button7,
-            binding.button8,
-            binding.button9,
-            binding.buttonA,
-            binding.buttonB,
-            binding.buttonC,
-            binding.buttonD,
-            binding.buttonE,
-            binding.buttonF
+            findViewById<Button>(R.id.button_0),
+            findViewById(R.id.button_1),
+            findViewById(R.id.button_2),
+            findViewById(R.id.button_3),
+            findViewById(R.id.button_4),
+            findViewById(R.id.button_5),
+            findViewById(R.id.button_6),
+            findViewById(R.id.button_7),
+            findViewById(R.id.button_8),
+            findViewById(R.id.button_9),
+            findViewById(R.id.button_A),
+            findViewById(R.id.button_b),
+            findViewById(R.id.button_c),
+            findViewById(R.id.button_d),
+            findViewById(R.id.button_e),
+            findViewById(R.id.button_f)
         )
         numberButtons.forEach { button ->
             button.setOnClickListener {
-                binding.editTextInputNumber.append(button.text)
+                inputNumberTextInput.append(button.text)
             }
         }
     }
 
-    private fun setupDeleteButtonClickListener() {
-        binding.buttonDelete.apply {
+    private fun setupDeleteButtons() {
+        deleteButton.apply {
             setOnClickListener {
-                binding.editTextInputNumber.text?.let { text ->
+                inputNumberTextInput.text?.let { text ->
                     if (text.isNotEmpty()) {
                         text.delete(text.length - 1, text.length)
                     }
@@ -79,22 +95,22 @@ class MainActivity : AppCompatActivity() {
             }
 
             setOnLongClickListener {
-                binding.editTextInputNumber.text?.clear()
+                inputNumberTextInput.text?.clear()
                 true
             }
         }
     }
 
-    private fun setupConversionViewsClickListener() {
-        binding.testTextView.setOnClickListener { showPopupMenu(it) }
-        binding.testTextView2.setOnClickListener { showPopupMenu(it) }
-        binding.buttonConvert.setOnClickListener { convertNumber() }
+    private fun setupConversionStates() {
+        convertFromTextView.setOnClickListener { showPopupMenu(it) }
+        convertToTextView.setOnClickListener { showPopupMenu(it) }
+        convertButton.setOnClickListener { convertNumber() }
     }
 
     private fun convertNumber() {
-        val inputNumber = binding.editTextInputNumber.text.toString()
-        val fromBase = binding.testTextView.text.toString()
-        val toBase = binding.testTextView2.text.toString()
+        val inputNumber = inputNumberTextInput.text.toString()
+        val fromBase = convertFromTextView.text.toString()
+        val toBase = convertToTextView.text.toString()
 
         val result = try {
             val fromRadix = getRadixFromBase(fromBase)
@@ -105,7 +121,7 @@ class MainActivity : AppCompatActivity() {
             "Invalid input"
         }
 
-        binding.textViewResult.text = result
+        resultTextView.text = result
     }
 
     private fun getRadixFromBase(base: String): Int {
@@ -115,12 +131,13 @@ class MainActivity : AppCompatActivity() {
             "Decimal" -> 10
             "Hexadecimal" -> 16
             else -> {
-                "Invalid Base".also { binding.textViewResult.text = it }
+                "Invalid Base".also { resultTextView.text = it }
                 2
             }
         }
     }
 
+    // Class
     private fun showPopupMenu(view: View) {
         val popupMenu = PopupMenu(applicationContext, view)
         popupMenu.setOnMenuItemClickListener { menuItem ->
