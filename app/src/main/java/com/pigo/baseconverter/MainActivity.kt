@@ -124,20 +124,17 @@ class MainActivity : AppCompatActivity() {
         resultTextView.text = result
     }
 
-    private fun getRadixFromBase(base: String): Int {
-        return when (base) {
-            "Binary" -> 2
-            "Octal" -> 8
-            "Decimal" -> 10
-            "Hexadecimal" -> 16
-            else -> {
-                "Invalid Base".also { resultTextView.text = it }
-                2
-            }
-        }
+    private val baseToRadix = mapOf("Binary" to 2,
+    "Octal" to 8,
+    "Decimal" to 10,
+    "Hexadecimal" to 16)
+    
+
+
+    fun getRadixFromBase(base: String): Int {
+        return baseToRadix[base] ?: 0
     }
 
-    // Class
     private fun showPopupMenu(view: View) {
         val popupMenu = PopupMenu(applicationContext, view)
         popupMenu.setOnMenuItemClickListener { menuItem ->
